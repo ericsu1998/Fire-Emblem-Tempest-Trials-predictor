@@ -30,7 +30,7 @@ target.rank.stats = function(rank){
 }
 
 #Initialize variables
-end.time = as.POSIXct("2018-07-25 00:00:00 EDT") #Change this to not be hard-coded
+end.time = as.POSIXct("2018-08-24 00:00:00 EDT") #Change this to not be hard-coded
 target.rank = 1000
 game.score = 705
 #Read data, do some preprocessing
