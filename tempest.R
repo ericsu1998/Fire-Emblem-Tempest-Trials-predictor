@@ -1,4 +1,18 @@
 #Helper functions
+latest.time = function(f){
+  data = read.csv(f)
+  return(tail(data$Time,1))
+}
+
+get.most.recent.tempest = function(){
+  tempest.files = list.files("Tempest_files")
+  tempest.paths = sapply(tempest.files, 
+                         function(x) paste("Tempest_files/",  x, sep=""))
+  most.recent.times = as.character(sapply(tempest.paths, latest.time))
+  most.recent.index = which(most.recent.times == max(most.recent.times))
+  return(tempest.paths[most.recent.index])
+}
+
 predicted.rank = function(model, score, start.time, time){
   coefs = coef(model)
   hrs.from.start = difftime(time, start.time, units="hours")
@@ -34,7 +48,7 @@ end.time = as.POSIXct("2018-08-24 00:03:00 EDT") #Change this to not be hard-cod
 target.rank = 1000
 game.score = 705
 #Read data, do some preprocessing
-tempest.file = readline(prompt="Enter name of tempest file (ex. Tempest.csv): ")
+tempest.file = get.most.recent.tempest()
 tempest.data = read.csv(tempest.file)
 starting.score = head(tempest.data$Score, 1)
 tempest.data$Time = strptime(tempest.data$Time, "%Y-%m-%dT%H:%M")
